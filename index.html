@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ExamPulse — Silicon University BBSR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0D1B3E;--navy2:#1A2B5E;--orange:#E8520A;--orange2:#FF6B1A;
+  --orange-light:#FFF0E8;--white:#FFFFFF;--off:#F5F7FF;--grey:#8892A4;
+  --border:#E2E8F0;--dark:#0A0F1E;--text:#1A202C;--text2:#4A5568;
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;
+  --shadow:0 4px 24px rgba(13,27,62,0.08);--shadow-lg:0 12px 48px rgba(13,27,62,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Syne',sans-serif;}
+.container{max-width:1180px;margin:0 auto;padding:0 24px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:all .25s;border:none;text-decoration:none;}
+.btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 4px 20px rgba(232,82,10,.35);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(232,82,10,.45);}
+.btn-outline{background:transparent;color:var(--navy);border:2px solid var(--border);}
+.btn-outline:hover{border-color:var(--navy);background:var(--off);}
+.btn-navy{background:var(--navy);color:#fff;}
+.btn-navy:hover{background:var(--navy2);transform:translateY(-2px);}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+.badge-orange{background:var(--orange-light);color:var(--orange);}
+.section{padding:96px 0;}
+.section-tag{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:12px;}
+.section-title{font-size:clamp(30px,4vw,50px);font-weight:800;color:var(--navy);line-height:1.15;margin-bottom:20px;}
+.section-sub{font-size:17px;color:var(--text2);line-height:1.7;max-width:560px;}
+.text-center{text-align:center;}
+.text-center .section-sub{margin:0 auto;}
+
+/* NAVBAR */
+#navbar{position:fixed;top:0;left:0;right:0;z-index:1000;transition:all .3s;}
+#navbar.scrolled{background:rgba(255,255,255,.96);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px;}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo-ep{width:38px;height:38px;background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#fff;}
+.nav-logo-text{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);}
+.nav-logo-text span{color:var(--orange);}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--text2);font-weight:500;font-size:15px;transition:color .2s;}
+.nav-links a:hover{color:var(--navy);}
+.nav-actions{display:flex;align-items:center;gap:12px;}
+
+/* PHONE BANNER */
+#phone-banner{background:linear-gradient(135deg,var(--orange),var(--orange2));padding:16px 0;display:none;}
+.phone-banner-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.phone-banner-text{color:#fff;font-weight:600;font-size:15px;}
+.phone-banner-sub{color:rgba(255,255,255,.8);font-size:13px;margin-top:2px;}
+.btn-white{background:#fff;color:var(--orange);font-weight:700;padding:10px 24px;border-radius:50px;text-decoration:none;font-size:14px;white-space:nowrap;}
+
+/* HERO */
+#hero{min-height:100vh;background:linear-gradient(135deg,var(--dark) 0%,var(--navy) 60%,#1e3a8a 100%);position:relative;display:flex;align-items:center;overflow:hidden;padding-top:72px;}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px;}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(232,82,10,.2) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+.hero-glow2{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.18) 0%,transparent 70%);bottom:-50px;left:5%;pointer-events:none;}
+.hero-content{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:64px 0;}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:24px;}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}}
+.hero-eyebrow-text{font-size:13px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:1px;text-transform:uppercase;}
+.hero-title{font-size:clamp(38px,5vw,66px);font-weight:800;color:#fff;line-height:1.08;margin-bottom:24px;}
+.hero-title .accent{color:var(--orange);}
+.hero-title .ul{position:relative;display:inline-block;}
+.hero-title .ul::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--orange),transparent);border-radius:2px;}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.65);line-height:1.75;margin-bottom:36px;max-width:480px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px;}
+.btn-ghost{color:rgba(255,255,255,.7);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:15px 28px;}
+.hero-stats{display:flex;gap:32px;}
+.hero-stat-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;}
+.hero-stat-num span{color:var(--orange);}
+.hero-stat-label{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px;}
+
+/* HERO MOCKUP */
+.hero-mockup{background:rgba(255,255,255,.05);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:28px;animation:float 4s ease-in-out infinite;position:relative;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+.mockup-hdr{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08);}
+.mockup-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff;}
+.mockup-logo span{color:var(--orange);}
+.mockup-live{margin-left:auto;padding:4px 10px;background:rgba(16,185,129,.15);color:#34D399;border-radius:50px;font-size:11px;font-weight:700;}
+.mockup-subj{background:rgba(255,255,255,.06);border-radius:12px;padding:16px;margin-bottom:12px;border:1px solid rgba(255,255,255,.06);}
+.mockup-subj-name{font-weight:700;color:#fff;font-size:15px;margin-bottom:8px;}
+.mockup-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.mt{padding:3px 10px;border-radius:50px;font-size:11px;font-weight:600;}
+.mt-o{background:rgba(232,82,10,.2);color:var(--orange2);}
+.mt-b{background:rgba(79,70,229,.2);color:#818CF8;}
+.mt-g{background:rgba(16,185,129,.15);color:#34D399;}
+.mockup-q{background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:8px;border-left:3px solid var(--orange);}
+.mockup-q-text{font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;}
+.mockup-q-meta{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.mqf{font-size:11px;color:var(--orange);font-weight:700;}
+.mqy{font-size:11px;color:rgba(255,255,255,.4);}
+.chip{position:absolute;background:rgba(255,255,255,.95);border-radius:12px;padding:10px 16px;font-size:13px;font-weight:600;color:var(--navy);box-shadow:0 8px 32px rgba(0,0,0,.2);display:flex;align-items:center;gap:8px;}
+.chip1{top:-18px;right:-14px;animation:float 3s ease-in-out infinite;}
+.chip2{bottom:16px;left:-24px;animation:float 3.5s ease-in-out infinite reverse;}
+.chip3{top:46%;right:-32px;animation:float 4s ease-in-out infinite;}
+
+/* FEATURES */
+#features{background:var(--off);}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px;}
+.feat-card{background:#fff;border-radius:20px;padding:32px;border:1px solid var(--border);transition:all .3s;position:relative;overflow:hidden;}
+.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--orange2));transform:scaleX(0);transition:transform .3s;transform-origin:left;}
+.feat-card:hover::before{transform:scaleX(1);}
+.feat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.feat-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px;}
+.fi-o{background:var(--orange-light);}
+.fi-n{background:#EEF2FF;}
+.fi-g{background:#D1FAE5;}
+.fi-p{background:#EDE9FE;}
+.fi-a{background:#FEF3C7;}
+.fi-r{background:#FEE2E2;}
+.feat-title{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:10px;}
+.feat-desc{font-size:14px;color:var(--text2);line-height:1.65;}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:56px;}
+.step{text-align:center;}
+.step-num{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;font-family:'Syne',sans-serif;font-size:24px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 24px rgba(232,82,10,.3);}
+.step-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.step-desc{font-size:13px;color:var(--text2);line-height:1.6;}
+
+/* BRANCHES */
+.branches-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:48px;}
+.branch-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px 16px;text-align:center;transition:all .3s;}
+.branch-card:hover{border-color:var(--orange);transform:translateY(-4px);box-shadow:0 12px 32px rgba(232,82,10,.12);}
+.branch-icon{font-size:32px;margin-bottom:12px;}
+.branch-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--navy);}
+.branch-sem{font-size:12px;color:var(--grey);margin-top:4px;}
+
+/* PRICING */
+#pricing{background:var(--navy);position:relative;overflow:hidden;}
+#pricing::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:40px 40px;}
+.pricing-card{position:relative;z-index:1;max-width:480px;margin:48px auto 0;background:rgba(255,255,255,.05);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:48px;text-align:center;}
+.pricing-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:rgba(232,82,10,.15);border:1px solid rgba(232,82,10,.3);border-radius:50px;font-size:13px;font-weight:700;color:var(--orange2);margin-bottom:28px;}
+.pricing-price{font-family:'Syne',sans-serif;font-size:80px;font-weight:800;color:#fff;line-height:1;}
+.pricing-price sup{font-size:32px;vertical-align:top;margin-top:16px;color:rgba(255,255,255,.6);}
+.pricing-price sub{font-size:18px;color:rgba(255,255,255,.5);font-weight:400;}
+.pricing-desc{color:rgba(255,255,255,.6);font-size:15px;margin:16px 0 32px;}
+.pricing-features{list-style:none;margin-bottom:36px;text-align:left;}
+.pricing-features li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:14px;}
+.pricing-features li:last-child{border:none;}
+.ck{color:var(--success);font-size:16px;flex-shrink:0;}
+#pricing .section-title{color:#fff;}
+#pricing .section-sub{color:rgba(255,255,255,.6);}
+#pricing .section-tag{color:var(--orange2);}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;}
+.testi-card{background:#fff;border-radius:20px;padding:28px;border:1px solid var(--border);}
+.testi-stars{color:var(--orange);font-size:14px;margin-bottom:14px;letter-spacing:2px;}
+.testi-text{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:20px;font-style:italic;}
+.testi-author{display:flex;align-items:center;gap:12px;}
+.testi-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff;}
+.testi-name{font-weight:700;font-size:14px;color:var(--navy);}
+.testi-branch{font-size:12px;color:var(--grey);}
+
+/* APP SECTION */
+.app-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.app-features-list{list-style:none;margin:24px 0 36px;}
+.app-features-list li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:15px;color:var(--text2);}
+.app-features-list li:last-child{border:none;}
+.phone-mockup-wrap{display:flex;justify-content:center;position:relative;}
+.phone-body{width:230px;background:var(--navy);border-radius:36px;padding:18px;box-shadow:0 32px 80px rgba(13,27,62,.25);border:8px solid var(--navy2);}
+.phone-screen{background:var(--off);border-radius:20px;overflow:hidden;}
+.phone-status-bar{background:var(--navy);padding:10px 16px;display:flex;justify-content:space-between;}
+.psb-text{color:rgba(255,255,255,.5);font-size:10px;}
+.phone-inner{padding:14px;}
+.p-greet{font-size:11px;color:var(--grey);margin-bottom:3px;}
+.p-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--navy);}
+.p-card{background:var(--navy);border-radius:12px;padding:14px;margin:10px 0;}
+.p-card-title{color:#fff;font-weight:700;font-size:12px;margin-bottom:3px;}
+.p-card-sub{color:rgba(255,255,255,.5);font-size:10px;}
+.p-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.p-mini{background:#fff;border-radius:8px;padding:10px;text-align:center;}
+.p-mini-icon{font-size:18px;margin-bottom:3px;}
+.p-mini-label{font-size:9px;font-weight:700;color:var(--navy);}
+.cs-badge{position:absolute;top:20px;right:10px;background:var(--orange);color:#fff;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;box-shadow:0 8px 24px rgba(232,82,10,.4);}
+
+/* CTA */
+#cta{background:linear-gradient(135deg,var(--dark),var(--navy));text-align:center;padding:96px 0;position:relative;overflow:hidden;}
+#cta::before{content:'';position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(232,82,10,.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);}
+#cta .section-title{color:#fff;}
+#cta .section-sub{color:rgba(255,255,255,.6);margin:0 auto 40px;}
+#cta .section-tag{color:var(--orange2);}
+
+/* FOOTER */
+footer{background:var(--dark);padding:60px 0 32px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+.footer-logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:12px;}
+.footer-logo span{color:var(--orange);}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;max-width:260px;}
+.footer-heading{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;}
+.footer-links{list-style:none;}
+.footer-links li{margin-bottom:10px;}
+.footer-links a{color:rgba(255,255,255,.55);font-size:14px;text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:24px;display:flex;align-items:center;justify-content:space-between;}
+.footer-copy{font-size:13px;color:rgba(255,255,255,.3);}
+.footer-made span{color:var(--orange);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,15,30,.75);backdrop-filter:blur(6px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.active{display:flex;}
+.modal{background:#fff;border-radius:24px;padding:44px;width:100%;max-width:440px;position:relative;animation:mIn .3s ease;}
+@keyframes mIn{from{opacity:0;transform:scale(.95) translateY(16px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-close{position:absolute;top:18px;right:18px;width:32px;height:32px;border-radius:50%;background:var(--off);border:none;cursor:pointer;font-size:16px;color:var(--grey);display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:var(--border);}
+.modal-tabs{display:flex;gap:4px;background:var(--off);border-radius:12px;padding:4px;margin-bottom:28px;}
+.modal-tab{flex:1;padding:10px;border:none;border-radius:10px;background:transparent;font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;color:var(--text2);transition:all .2s;}
+.modal-tab.active{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.modal-title{font-size:24px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+.modal-sub{font-size:14px;color:var(--text2);margin-bottom:24px;}
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px;}
+.form-input{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;color:var(--text);}
+.form-input:focus{border-color:var(--orange);}
+.form-input::placeholder{color:var(--grey);}
+.form-submit{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;font-size:16px;font-weight:700;cursor:pointer;transition:all .25s;margin-top:8px;font-family:'DM Sans',sans-serif;}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,82,10,.35);}
+.form-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+/* PAYWALL */
+.paywall-price-box{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:16px;padding:24px;text-align:center;margin:16px 0;}
+.paywall-amount{font-family:'Syne',sans-serif;font-size:56px;font-weight:800;color:#fff;line-height:1;}
+.paywall-amount sup{font-size:24px;color:rgba(255,255,255,.6);}
+.paywall-period{color:rgba(255,255,255,.5);font-size:14px;margin-top:4px;}
+.paywall-features{list-style:none;margin:16px 0;}
+.paywall-features li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text2);padding:8px 0;border-bottom:1px solid var(--border);}
+.paywall-features li:last-child{border:none;}
+.wp-fallback{margin-top:16px;text-align:center;font-size:13px;color:var(--grey);}
+.wp-fallback a{color:#25D366;font-weight:600;text-decoration:none;}
+
+/* DASHBOARD APP */
+#app-root{display:none;}
+.app-layout{display:flex;height:100vh;overflow:hidden;}
+.sidebar{width:256px;background:var(--navy);flex-shrink:0;display:flex;flex-direction:column;}
+.sidebar-logo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sidebar-logo-text{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#fff;}
+.sidebar-logo-text span{color:var(--orange);}
+.sidebar-logo-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;}
+.sidebar-nav{flex:1;overflow-y:auto;padding:16px 12px;}
+.sl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:12px 8px 6px;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.6);font-size:14px;font-weight:500;margin-bottom:2px;}
+.nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
+.nav-item.active{background:rgba(232,82,10,.15);color:var(--orange2);}
+.nav-item-icon{font-size:18px;width:20px;text-align:center;}
+.sidebar-bottom{padding:16px 12px;border-top:1px solid rgba(255,255,255,.08);}
+.user-chip{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.05);}
+.user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange2));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff;flex-shrink:0;}
+.user-name{font-size:13px;font-weight:600;color:#fff;}
+.user-email{font-size:11px;color:rgba(255,255,255,.4);}
+.app-main{flex:1;overflow-y:auto;background:var(--off);}
+.app-topbar{background:#fff;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.topbar-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);}
+.app-content{padding:32px;}
+.page{display:none;}
+.page.active{display:block;}
+
+/* DASHBOARD */
+.access-banner{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:16px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.access-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;}
+.access-sub{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px;}
+.access-days{padding:6px 16px;background:rgba(16,185,129,.2);color:#34D399;border-radius:50px;font-size:12px;font-weight:700;}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:28px;}
+.dash-card{background:#fff;border-radius:16px;padding:24px;border:1px solid var(--border);}
+.dash-card-icon{font-size:28px;margin-bottom:12px;}
+.dash-card-val{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--navy);}
+.dash-card-label{font-size:13px;color:var(--grey);margin-top:4px;}
+.content-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.content-card{background:#fff;border-radius:16px;padding:24px;border:1px solid var(--border);}
+.content-card-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:16px;}
+.recent-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.recent-item:last-child{border:none;}
+.ri-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.ri-title{font-size:13px;font-weight:600;color:var(--navy);}
+.ri-sub{font-size:12px;color:var(--grey);}
+.ri-time{font-size:11px;color:var(--grey);margin-left:auto;white-space:nowrap;}
+.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.qa-item{background:var(--off);border-radius:12px;padding:16px;cursor:pointer;text-align:center;transition:all .2s;}
+.qa-item:hover{background:var(--orange-light);}
+.qa-icon{font-size:26px;margin-bottom:6px;}
+.qa-label{font-weight:700;font-size:13px;color:var(--navy);}
+
+/* BROWSE */
+.browse-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.bbc{background:#fff;border-radius:16px;padding:24px;border:1px solid var(--border);cursor:pointer;transition:all .3s;}
+.bbc:hover{border-color:var(--orange);box-shadow:0 8px 32px rgba(232,82,10,.1);}
+.bbc-icon{font-size:36px;margin-bottom:14px;}
+.bbc-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+.bbc-meta{font-size:13px;color:var(--grey);}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--grey);margin-bottom:20px;flex-wrap:wrap;}
+.bc-link{color:var(--orange);font-weight:600;cursor:pointer;}
+.bc-sep{color:var(--border);}
+.bc-cur{color:var(--text2);font-weight:500;}
+
+/* QUESTIONS */
+.q-card{background:#fff;border-radius:14px;padding:20px;border:1px solid var(--border);margin-bottom:12px;cursor:pointer;transition:all .2s;}
+.q-card:hover{border-color:var(--orange);box-shadow:0 4px 20px rgba(232,82,10,.08);}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.q-text{font-size:15px;color:var(--text);line-height:1.6;}
+.q-footer{display:flex;align-items:center;gap:12px;margin-top:10px;font-size:13px;color:var(--grey);}
+.mark-badge{padding:3px 12px;border-radius:50px;font-size:12px;font-weight:700;background:#EEF2FF;color:var(--navy);}
+.freq-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:var(--orange-light);color:var(--orange);border-radius:50px;font-size:12px;font-weight:700;}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.fchip{padding:7px 18px;border-radius:50px;border:1.5px solid var(--border);background:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text2);}
+.fchip:hover,.fchip.active{border-color:var(--orange);color:var(--orange);background:var(--orange-light);}
+
+/* SEARCH */
+.search-bar-wrap{display:flex;gap:12px;margin-bottom:28px;}
+.search-inp{flex:1;padding:14px 20px;border:2px solid var(--border);border-radius:14px;font-size:16px;outline:none;font-family:'DM Sans',sans-serif;transition:border-color .2s;}
+.search-inp:focus{border-color:var(--orange);}
+.search-btn{padding:14px 24px;background:var(--orange);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;}
+.results-section{margin-bottom:28px;}
+.results-hdr{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+.results-count{font-size:13px;color:var(--grey);font-weight:400;}
+
+/* BOOKMARKS */
+.bmark-card{background:#fff;border-radius:14px;padding:20px;border:1px solid var(--border);margin-bottom:12px;display:flex;gap:16px;align-items:flex-start;}
+.bmark-remove{background:none;border:none;cursor:pointer;color:var(--grey);font-size:18px;padding:4px;flex-shrink:0;}
+.bmark-remove:hover{color:var(--danger);}
+
+/* ADMIN */
+.admin-tabs{display:flex;gap:4px;background:var(--off);border-radius:12px;padding:4px;margin-bottom:24px;width:fit-content;}
+.admin-tab{padding:8px 20px;border:none;border-radius:10px;background:transparent;font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;color:var(--text2);transition:all .2s;}
+.admin-tab.active{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.admin-section{display:none;}
+.admin-section.active{display:block;}
+.admin-table{width:100%;border-collapse:collapse;}
+.admin-table th{text-align:left;padding:12px 16px;font-size:11px;font-weight:700;color:var(--grey);letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid var(--border);}
+.admin-table td{padding:13px 16px;font-size:14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.admin-table tr:hover td{background:var(--off);}
+.spill{padding:4px 12px;border-radius:50px;font-size:12px;font-weight:700;}
+.s-active{background:#D1FAE5;color:#065F46;}
+.s-inactive{background:#FEE2E2;color:#991B1B;}
+.abtn{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .2s;margin-right:4px;}
+.abtn-grant{background:#D1FAE5;color:#065F46;}
+.abtn-block{background:#FEE2E2;color:#991B1B;}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 24px;}
+.empty-icon{font-size:52px;margin-bottom:16px;}
+.empty-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.empty-sub{font-size:15px;color:var(--grey);margin-bottom:24px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:600;z-index:9999;transition:transform .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.25);white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.success{background:var(--success);}
+.toast.error{background:var(--danger);}
+
+/* SPINNER */
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;vertical-align:middle;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+.s1{transition-delay:.1s;}.s2{transition-delay:.2s;}.s3{transition-delay:.3s;}.s4{transition-delay:.4s;}.s5{transition-delay:.5s;}.s6{transition-delay:.6s;}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .dash-grid{grid-template-columns:repeat(2,1fr);}
+  .branches-grid{grid-template-columns:repeat(3,1fr);}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+  #phone-banner{display:block;}
+  .hero-content{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .features-grid,.testi-grid,.content-row{grid-template-columns:1fr;}
+  .steps{grid-template-columns:repeat(2,1fr);}
+  .branches-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-grid{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  .browse-grid,.app-inner{grid-template-columns:1fr;}
+  .app-layout{flex-direction:column;}
+  .sidebar{width:100%;height:auto;}
+}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════ LANDING ═══════════════ -->
+<div id="landing-root">
+
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+        <div class="nav-logo-ep">EP</div>
+        <span class="nav-logo-text">Exam<span>Pulse</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#app-section">Mobile App</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn btn-outline" onclick="openModal('login')" style="padding:9px 20px;">Login</button>
+        <button class="btn btn-primary" onclick="openModal('register')" style="padding:9px 20px;">Get Started</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="phone-banner">
+  <div class="container">
+    <div class="phone-banner-inner">
+      <div>
+        <div class="phone-banner-text">📱 Get the ExamPulse Android App</div>
+        <div class="phone-banner-sub">Better mobile experience — Coming soon</div>
+      </div>
+      <span class="btn-white">Coming Soon</span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div>
+        <div class="hero-eyebrow">
+          <div class="hero-dot"></div>
+          <span class="hero-eyebrow-text">Silicon University BBSR · Official PYQ Platform</span>
+        </div>
+        <h1 class="hero-title">Stop Searching.<br><span class="ul">Start</span> <span class="accent">Scoring.</span></h1>
+        <p class="hero-sub">Every PYQ, note, concept, and revision question for Silicon University — organized exactly the way your syllabus is. One platform. ₹50 for a full year.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="openModal('register')" style="font-size:16px;padding:15px 32px;">Start for ₹50 →</button>
+          <button class="btn btn-ghost" onclick="openModal('login')" style="font-size:15px;">Login</button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num">6<span>+</span></div><div class="hero-stat-label">Branches</div></div>
+          <div><div class="hero-stat-num">8<span>+</span></div><div class="hero-stat-label">Semesters</div></div>
+          <div><div class="hero-stat-num">₹50</div><div class="hero-stat-label">Per Year</div></div>
+          <div><div class="hero-stat-num">∞</div><div class="hero-stat-label">Questions</div></div>
+        </div>
+      </div>
+      <div class="hero-right" style="position:relative;">
+        <div class="chip chip1">🔥 Appeared 5 times</div>
+        <div class="chip chip2">📚 DBMS · Module 2</div>
+        <div class="chip chip3">✅ Solution included</div>
+        <div class="hero-mockup">
+          <div class="mockup-hdr">
+            <span class="mockup-logo">Exam<span>Pulse</span></span>
+            <span class="mockup-live">● Live</span>
+          </div>
+          <div class="mockup-subj">
+            <div class="mockup-subj-name">DBMS — Module 2</div>
+            <div class="mockup-tags">
+              <span class="mt mt-o">Relational Model</span>
+              <span class="mt mt-b">CSE · Sem 4</span>
+              <span class="mt mt-g">5 topics</span>
+            </div>
+          </div>
+          <div class="mockup-q">
+            <div class="mockup-q-text">Explain SQL Joins with examples. Differentiate INNER, LEFT and RIGHT JOIN.</div>
+            <div class="mockup-q-meta"><span class="mqf">🔁 5×</span><span class="mqy">2021 · 2022 · 2023 · 2024</span></div>
+          </div>
+          <div class="mockup-q">
+            <div class="mockup-q-text">What is Normalization? Explain 1NF, 2NF and 3NF with examples.</div>
+            <div class="mockup-q-meta"><span class="mqf">🔁 4×</span><span class="mqy">2022 · 2023 · 2024</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="section">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-tag">Why ExamPulse</div>
+      <h2 class="section-title">Everything you need to ace your exams</h2>
+      <p class="section-sub">No more WhatsApp hunting. No more random PDFs. Everything organized and searchable.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card fade-up s1"><div class="feat-icon fi-o">📋</div><div class="feat-title">PYQs with Solutions</div><div class="feat-desc">Topic-wise previous year questions with complete solutions, diagrams, and code snippets. Organized by mark category so you know exactly what to prepare.</div></div>
+      <div class="feat-card fade-up s2"><div class="feat-icon fi-r">🔁</div><div class="feat-title">Most Repeated Questions</div><div class="feat-desc">See which questions appeared multiple times across years. Frequency count shown on every question so you always know what to prioritize.</div></div>
+      <div class="feat-card fade-up s3"><div class="feat-icon fi-a">💡</div><div class="feat-title">Important Concepts</div><div class="feat-desc">Key concepts explained clearly for each module. Quick revision without reading entire textbooks the night before your exam.</div></div>
+      <div class="feat-card fade-up s4"><div class="feat-icon fi-g">📄</div><div class="feat-title">Module Notes</div><div class="feat-desc">Handwritten notes, faculty notes, revision sheets and question banks — uploaded as PDFs, viewable directly in the platform.</div></div>
+      <div class="feat-card fade-up s5"><div class="feat-icon fi-n">⭐</div><div class="feat-title">Top Revision Questions</div><div class="feat-desc">Admin-curated list of the most important questions per module. The ultimate last-minute revision tool before exams.</div></div>
+      <div class="feat-card fade-up s6"><div class="feat-icon fi-p">🔍</div><div class="feat-title">Powerful Search</div><div class="feat-desc">Search across all PYQs, concepts, and notes in one go. Find anything in seconds instead of scrolling through folders.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="section" style="background:var(--off);">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-tag">Simple Process</div>
+      <h2 class="section-title">Start studying in 4 steps</h2>
+    </div>
+    <div class="steps">
+      <div class="step fade-up s1"><div class="step-num">1</div><div class="step-title">Create Account</div><div class="step-desc">Register with your email and phone number. Takes less than a minute.</div></div>
+      <div class="step fade-up s2"><div class="step-num">2</div><div class="step-title">Pay ₹50</div><div class="step-desc">One-time payment via UPI, card or netbanking. Access unlocks instantly for 1 full year.</div></div>
+      <div class="step fade-up s3"><div class="step-num">3</div><div class="step-title">Select Branch</div><div class="step-desc">Pick CSE, ECE, EEE, EIE, VLSI or CST. Then choose your semester and subject.</div></div>
+      <div class="step fade-up s4"><div class="step-num">4</div><div class="step-title">Start Studying</div><div class="step-desc">Browse PYQs, save bookmarks, search concepts, read notes. Everything in one place.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANCHES -->
+<section class="section">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-tag">All Branches Covered</div>
+      <h2 class="section-title">Your branch is here</h2>
+      <p class="section-sub">Content organized for every branch at Silicon University BBSR, Semester 1 through Semester 8.</p>
+    </div>
+    <div class="branches-grid">
+      <div class="branch-card fade-up s1"><div class="branch-icon">💻</div><div class="branch-name">CSE</div><div class="branch-sem">Computer Science</div></div>
+      <div class="branch-card fade-up s2"><div class="branch-icon">📡</div><div class="branch-name">ECE</div><div class="branch-sem">Electronics & Comm.</div></div>
+      <div class="branch-card fade-up s3"><div class="branch-icon">⚡</div><div class="branch-name">EEE</div><div class="branch-sem">Electrical Engineering</div></div>
+      <div class="branch-card fade-up s4"><div class="branch-icon">🔌</div><div class="branch-name">EIE</div><div class="branch-sem">Electronics & Instru.</div></div>
+      <div class="branch-card fade-up s5"><div class="branch-icon">🔬</div><div class="branch-name">VLSI</div><div class="branch-sem">VLSI Design</div></div>
+      <div class="branch-card fade-up s6"><div class="branch-icon">🖥️</div><div class="branch-name">CST</div><div class="branch-sem">Comp. Science & Tech</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="section">
+  <div class="container text-center">
+    <div class="section-tag">Pricing</div>
+    <h2 class="section-title">One price. One year. Everything.</h2>
+    <p class="section-sub">No hidden fees. No subscriptions. Pay once, study all year.</p>
+    <div class="pricing-card fade-up">
+      <div class="pricing-badge">🎓 Student Exclusive · Silicon University BBSR</div>
+      <div class="pricing-price"><sup>₹</sup>50<sub>/year</sub></div>
+      <div class="pricing-desc">One-time payment · 365 days of full access</div>
+      <ul class="pricing-features">
+        <li><span class="ck">✓</span> All 6 branches — CSE, ECE, EEE, EIE, VLSI, CST</li>
+        <li><span class="ck">✓</span> All 8 semesters per branch</li>
+        <li><span class="ck">✓</span> Topic-wise PYQs with complete solutions</li>
+        <li><span class="ck">✓</span> Most repeated questions with frequency count</li>
+        <li><span class="ck">✓</span> Important concepts per module</li>
+        <li><span class="ck">✓</span> Notes: handwritten, faculty, revision PDFs</li>
+        <li><span class="ck">✓</span> Official syllabus per subject</li>
+        <li><span class="ck">✓</span> Top revision questions before exams</li>
+        <li><span class="ck">✓</span> Global search across all content</li>
+        <li><span class="ck">✓</span> Bookmark and save important questions</li>
+        <li><span class="ck">✓</span> Web platform + Mobile App access</li>
+      </ul>
+      <button class="form-submit" onclick="openModal('register')" style="font-size:17px;padding:16px;">Get Full Access — ₹50</button>
+      <div style="margin-top:14px;font-size:13px;color:rgba(255,255,255,.4);">Secure payment via Razorpay · UPI / Card / Netbanking</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="background:var(--off);">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-tag">Student Reviews</div>
+      <h2 class="section-title">What students are saying</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade-up s1">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"I used to spend hours before exams searching WhatsApp groups and Drive folders. ExamPulse literally saved me. Everything is in one place and organized perfectly."</div>
+        <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,#4F46E5,#7C3AED);">R</div><div><div class="testi-name">Rahul M.</div><div class="testi-branch">CSE · Semester 6</div></div></div>
+      </div>
+      <div class="testi-card fade-up s2">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"The frequency count on each question is genius. I knew exactly which topics to focus on before End Sem. Got much better results than I expected this time."</div>
+        <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,var(--orange),var(--orange2));">P</div><div><div class="testi-name">Priya S.</div><div class="testi-branch">ECE · Semester 4</div></div></div>
+      </div>
+      <div class="testi-card fade-up s3">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"₹50 for an entire year? That's less than a cup of tea. Worth every rupee. The notes section alone is worth it — handwritten notes that seniors used to gatekeep."</div>
+        <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,#10B981,#059669);">A</div><div><div class="testi-name">Aryan K.</div><div class="testi-branch">EEE · Semester 3</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP SECTION -->
+<section id="app-section" class="section">
+  <div class="container">
+    <div class="app-inner">
+      <div>
+        <div class="section-tag">Mobile App</div>
+        <h2 class="section-title">Study on the go with our Android app</h2>
+        <p class="section-sub">Same content. Same account. Better experience on mobile. Coming soon to Google Play Store.</p>
+        <ul class="app-features-list">
+          <li>✓ Works offline for saved content</li>
+          <li>✓ Dark mode for late-night studying</li>
+          <li>✓ Push notifications for new content</li>
+          <li>✓ Synced bookmarks across devices</li>
+          <li>✓ Android first · iOS coming soon</li>
+        </ul>
+        <div style="background:var(--navy);color:#fff;padding:14px 24px;border-radius:14px;display:inline-flex;align-items:center;gap:14px;opacity:.75;cursor:not-allowed;">
+          <span style="font-size:22px;">▶</span>
+          <div><div style="font-size:11px;opacity:.6;">Coming Soon on</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;">Google Play</div></div>
+        </div>
+      </div>
+      <div class="phone-mockup-wrap">
+        <div class="phone-body">
+          <div class="phone-screen">
+            <div class="phone-status-bar"><span class="psb-text">9:41</span><span class="psb-text">●●●</span></div>
+            <div class="phone-inner">
+              <div class="p-greet">Good Morning</div>
+              <div class="p-name">Student 👋</div>
+              <div class="p-card"><div class="p-card-title">Start Learning →</div><div class="p-card-sub">CSE · Semester 4 · DBMS</div></div>
+              <div class="p-grid">
+                <div class="p-mini"><div class="p-mini-icon">🔁</div><div class="p-mini-label">Most Repeated</div></div>
+                <div class="p-mini"><div class="p-mini-icon">💡</div><div class="p-mini-label">Concepts</div></div>
+                <div class="p-mini"><div class="p-mini-icon">📄</div><div class="p-mini-label">Notes</div></div>
+                <div class="p-mini"><div class="p-mini-icon">⭐</div><div class="p-mini-label">Top Revision</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cs-badge">Coming Soon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-tag">Ready to start?</div>
+    <h2 class="section-title">Join Silicon University students<br>studying smarter</h2>
+    <p class="section-sub">Stop wasting time. Get organized. Score better. ₹50 for a full year of access.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:36px;">
+      <button class="btn btn-primary" onclick="openModal('register')" style="font-size:17px;padding:16px 36px;">Get Started — ₹50</button>
+      <button class="btn btn-ghost" onclick="openModal('login')" style="font-size:15px;padding:16px 28px;">Login</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Exam<span>Pulse</span></div>
+        <div class="footer-tagline">The official exam preparation platform for Silicon University BBSR. Prepare · Practice · Perform.</div>
+      </div>
+      <div>
+        <div class="footer-heading">Platform</div>
+        <ul class="footer-links"><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#how-it-works">How It Works</a></li><li><a href="#app-section">Mobile App</a></li></ul>
+      </div>
+      <div>
+        <div class="footer-heading">Branches</div>
+        <ul class="footer-links"><li><a href="#">CSE</a></li><li><a href="#">ECE</a></li><li><a href="#">EEE</a></li><li><a href="#">EIE</a></li><li><a href="#">VLSI</a></li><li><a href="#">CST</a></li></ul>
+      </div>
+      <div>
+        <div class="footer-heading">Support</div>
+        <ul class="footer-links"><li><a href="https://wa.me/916376122867" target="_blank">WhatsApp Support</a></li><li><a href="mailto:sahinpradhan41@gmail.com">Email Us</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Use</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 ExamPulse. All rights reserved.</div>
+      <div class="footer-made" style="font-size:13px;color:rgba(255,255,255,.3);">Made with <span>♥</span> for Silicon University BBSR</div>
+    </div>
+  </div>
+</footer>
+</div><!-- /landing-root -->
+
+<!-- ═══════════════ AUTH MODALS ═══════════════ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
+      <button class="modal-tab" id="tab-register" onclick="switchTab('register')">Register</button>
+    </div>
+    <div id="login-form">
+      <div class="modal-title">Welcome back</div>
+      <div class="modal-sub">Login to access your study materials</div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="login-email" placeholder="your@email.com"/></div>
+      <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" id="login-password" placeholder="Your password" onkeydown="if(event.key==='Enter')handleLogin()"/></div>
+      <button class="form-submit" id="login-btn" onclick="handleLogin()">Login</button>
+    </div>
+    <div id="register-form" style="display:none;">
+      <div class="modal-title">Create account</div>
+      <div class="modal-sub">Join Silicon University students on ExamPulse</div>
+      <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" type="text" id="reg-name" placeholder="Your full name"/></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="reg-email" placeholder="your@email.com"/></div>
+      <div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="tel" id="reg-phone" placeholder="10-digit mobile number"/></div>
+      <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" id="reg-password" placeholder="Minimum 6 characters" onkeydown="if(event.key==='Enter')handleRegister()"/></div>
+      <button class="form-submit" id="register-btn" onclick="handleRegister()">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAYWALL MODAL -->
+<div class="modal-overlay" id="paywall-modal">
+  <div class="modal" style="max-width:480px;">
+    <button class="modal-close" onclick="document.getElementById('paywall-modal').classList.remove('active')">✕</button>
+    <div class="modal-title">Unlock Full Access</div>
+    <div class="modal-sub">Get 1 year of unlimited access to all study materials</div>
+    <div class="paywall-price-box">
+      <div class="paywall-amount"><sup>₹</sup>50</div>
+      <div class="paywall-period">per year · one-time payment</div>
+    </div>
+    <ul class="paywall-features">
+      <li><span>✓</span> All branches and semesters</li>
+      <li><span>✓</span> Topic-wise PYQs with complete solutions</li>
+      <li><span>✓</span> Most repeated questions + frequency data</li>
+      <li><span>✓</span> Notes, concepts, syllabus per module</li>
+      <li><span>✓</span> Global search and bookmarks</li>
+      <li><span>✓</span> Web + Mobile app access</li>
+    </ul>
+    <button class="form-submit" id="pay-btn" onclick="handlePayment()">Pay ₹50 via Razorpay</button>
+    <div class="wp-fallback">Paid but no access? <a href="https://wa.me/916376122867?text=Hi, I paid for ExamPulse but did not get access." target="_blank">Contact on WhatsApp →</a></div>
+  </div>
+</div>
+
+<!-- ═══════════════ APP DASHBOARD ═══════════════ -->
+<div id="app-root">
+  <div class="app-layout">
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-text">Exam<span>Pulse</span></div>
+        <div class="sidebar-logo-sub">Silicon University BBSR</div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="sl">Study</div>
+        <div class="nav-item active" onclick="showPage('dashboard')"><span class="nav-item-icon">🏠</span> Home</div>
+        <div class="nav-item" onclick="showPage('browse')"><span class="nav-item-icon">📚</span> Browse</div>
+        <div class="nav-item" onclick="showPage('search')"><span class="nav-item-icon">🔍</span> Search</div>
+        <div class="nav-item" onclick="showPage('bookmarks')"><span class="nav-item-icon">❤️</span> Bookmarks</div>
+        <div class="sl">Account</div>
+        <div class="nav-item" id="admin-nav" style="display:none;" onclick="showPage('admin')"><span class="nav-item-icon">⚙️</span> Admin Panel</div>
+        <div class="nav-item" onclick="handleLogout()" style="color:rgba(255,120,120,.7);"><span class="nav-item-icon">🚪</span> Logout</div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="user-chip">
+          <div class="user-avatar" id="sb-avatar">S</div>
+          <div><div class="user-name" id="sb-name">Student</div><div class="user-email" id="sb-email">loading...</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="app-main">
+      <div class="app-topbar">
+        <div class="topbar-title" id="topbar-title">Home</div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span id="access-status" style="padding:5px 14px;background:#D1FAE5;color:#065F46;border-radius:50px;font-size:12px;font-weight:700;">● Access Active</span>
+        </div>
+      </div>
+      <div class="app-content">
+
+        <!-- DASHBOARD -->
+        <div class="page active" id="page-dashboard">
+          <div class="access-banner" id="access-banner">
+            <div><div class="access-title">✅ Access Active</div><div class="access-sub" id="access-expiry-text">Loading expiry...</div></div>
+            <div class="access-days" id="access-days-badge">— Days</div>
+          </div>
+          <div class="dash-grid">
+            <div class="dash-card"><div class="dash-card-icon">🏫</div><div class="dash-card-val">6</div><div class="dash-card-label">Branches</div></div>
+            <div class="dash-card"><div class="dash-card-icon">📅</div><div class="dash-card-val">8</div><div class="dash-card-label">Semesters</div></div>
+            <div class="dash-card"><div class="dash-card-icon">❤️</div><div class="dash-card-val" id="bmark-count">0</div><div class="dash-card-label">Your Bookmarks</div></div>
+            <div class="dash-card"><div class="dash-card-icon">🔍</div><div class="dash-card-val">∞</div><div class="dash-card-label">Questions</div></div>
+          </div>
+          <div class="content-row">
+            <div class="content-card"><div class="content-card-title">Recent Updates</div><div id="recent-list"><div style="color:var(--grey);font-size:14px;">Loading...</div></div></div>
+            <div class="content-card">
+              <div class="content-card-title">Quick Access</div>
+              <div class="qa-grid">
+                <div class="qa-item" onclick="showPage('browse')"><div class="qa-icon">📚</div><div class="qa-label">Browse</div></div>
+                <div class="qa-item" onclick="showPage('search')"><div class="qa-icon">🔍</div><div class="qa-label">Search</div></div>
+                <div class="qa-item" onclick="showPage('bookmarks')"><div class="qa-icon">❤️</div><div class="qa-label">Bookmarks</div></div>
+                <div class="qa-item" onclick="showPage('browse')"><div class="qa-icon">📄</div><div class="qa-label">Notes</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BROWSE -->
+        <div class="page" id="page-browse"><div id="browse-content"></div></div>
+
+        <!-- SEARCH -->
+        <div class="page" id="page-search">
+          <div class="search-bar-wrap">
+            <input class="search-inp" type="text" id="search-input" placeholder="Search questions, concepts, notes..." oninput="handleSearch()"/>
+            <button class="search-btn" onclick="handleSearch()">Search</button>
+          </div>
+          <div id="search-results">
+            <div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">Search anything</div><div class="empty-sub">Type a topic, keyword or subject name to find questions, concepts and notes across all branches.</div></div>
+          </div>
+        </div>
+
+        <!-- BOOKMARKS -->
+        <div class="page" id="page-bookmarks"><div id="bookmarks-content"><div style="color:var(--grey);">Loading...</div></div></div>
+
+        <!-- ADMIN -->
+        <div class="page" id="page-admin">
+          <div class="admin-tabs">
+            <button class="admin-tab active" onclick="switchAdmin('users',this)">👥 Users</button>
+            <button class="admin-tab" onclick="switchAdmin('reports',this)">🚩 Reports</button>
+            <button class="admin-tab" onclick="switchAdmin('seed',this)">🌱 Setup</button>
+          </div>
+          <div class="admin-section active" id="admin-users">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+              <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--navy);">All Users</div>
+              <button class="btn btn-navy" style="padding:8px 20px;font-size:13px;" onclick="loadAdminUsers()">↻ Refresh</button>
+            </div>
+            <div style="background:#fff;border-radius:16px;border:1px solid var(--border);overflow:auto;">
+              <table class="admin-table">
+                <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Expires</th><th>Actions</th></tr></thead>
+                <tbody id="users-tbody"><tr><td colspan="6" style="text-align:center;color:var(--grey);padding:40px;">Loading users...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="admin-section" id="admin-reports"><div id="reports-list"><div style="color:var(--grey);">Click refresh to load reports</div></div><button class="btn btn-navy" style="padding:8px 20px;font-size:13px;margin-top:16px;" onclick="loadAdminReports()">↻ Load Reports</button></div>
+          <div class="admin-section" id="admin-seed">
+            <div style="background:#fff;border-radius:16px;padding:32px;border:1px solid var(--border);max-width:500px;">
+              <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:8px;">🌱 Seed Branches</div>
+              <p style="color:var(--text2);font-size:14px;margin-bottom:24px;">Adds CSE, ECE, EEE, EIE, VLSI, CST to your database. Run this once after first deployment.</p>
+              <button class="btn btn-primary" onclick="seedBranches()">Seed All Branches Now</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// CONFIG — update API URL after deploying backend
+// ═══════════════════════════════════════════════
+const API = 'https://exampulse-api.onrender.com';
+let authToken = localStorage.getItem('ep_token');
+let currentUser = JSON.parse(localStorage.getItem('ep_user') || 'null');
+let bs = {}; // browse state
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:0.1});
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  if (authToken && currentUser) {
+    const paid = currentUser.isPaid && currentUser.accessExpiry && new Date() < new Date(currentUser.accessExpiry);
+    if (paid) showApp();
+    else if (authToken) showPaywall();
+  }
+});
+
+// ═══════════════════════════════════════════════
+// MODALS
+// ═══════════════════════════════════════════════
+function openModal(tab) { document.getElementById('auth-modal').classList.add('active'); switchTab(tab); }
+function closeModal() { document.getElementById('auth-modal').classList.remove('active'); }
+function switchTab(tab) {
+  document.getElementById('login-form').style.display = tab==='login'?'block':'none';
+  document.getElementById('register-form').style.display = tab==='register'?'block':'none';
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-register').classList.toggle('active', tab==='register');
+}
+window.addEventListener('click', e => {
+  if (e.target.id==='auth-modal') closeModal();
+  if (e.target.id==='paywall-modal') document.getElementById('paywall-modal').classList.remove('active');
+});
+
+// ═══════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════
+async function handleLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!email || !password) return toast('Fill in all fields', 'error');
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Logging in...';
+  try {
+    const data = await api('/api/auth/login','POST',{email,password});
+    save(data.token, data.user); closeModal();
+    const paid = data.user.isPaid && data.user.accessExpiry && new Date() < new Date(data.user.accessExpiry);
+    if (paid) showApp(); else showPaywall();
+  } catch(e) { toast(e.message||'Login failed','error'); }
+  finally { btn.disabled=false; btn.innerHTML='Login'; }
+}
+
+async function handleRegister() {
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const phone=document.getElementById('reg-phone').value.trim();
+  const password=document.getElementById('reg-password').value;
+  if (!name||!email||!phone||!password) return toast('Fill in all fields','error');
+  if (password.length<6) return toast('Password must be 6+ characters','error');
+  const btn = document.getElementById('register-btn');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Creating account...';
+  try {
+    const data = await api('/api/auth/register','POST',{name,email,phone,password});
+    save(data.token, data.user); closeModal(); showPaywall();
+  } catch(e) { toast(e.message||'Registration failed','error'); }
+  finally { btn.disabled=false; btn.innerHTML='Create Account'; }
+}
+
+function save(token, user) {
+  authToken=token; currentUser=user;
+  localStorage.setItem('ep_token',token);
+  localStorage.setItem('ep_user',JSON.stringify(user));
+}
+
+function handleLogout() {
+  authToken=null; currentUser=null;
+  localStorage.removeItem('ep_token'); localStorage.removeItem('ep_user');
+  document.getElementById('app-root').style.display='none';
+  document.getElementById('landing-root').style.display='block';
+  toast('Logged out successfully');
+}
+
+// ═══════════════════════════════════════════════
+// PAYMENT
+// ═══════════════════════════════════════════════
+function showPaywall() { document.getElementById('paywall-modal').classList.add('active'); }
+
+async function handlePayment() {
+  const btn = document.getElementById('pay-btn');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Opening payment...';
+  try {
+    const data = await api('/api/payment/create-order','POST');
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => {
+      const rzp = new window.Razorpay({
+        key: data.razorpayKeyId, amount: data.amount, currency: data.currency,
+        name: 'ExamPulse', description: '1 Year Full Access — Silicon University',
+        order_id: data.orderId,
+        prefill: { name: currentUser?.name, email: currentUser?.email, contact: currentUser?.phone },
+        theme: { color: '#E8520A' },
+        handler: async (response) => {
+          try {
+            const v = await api('/api/payment/verify','POST',{
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            });
+            if (v.success) {
+              currentUser = {...currentUser, isPaid:true, accessExpiry:v.accessExpiry};
+              localStorage.setItem('ep_user', JSON.stringify(currentUser));
+              document.getElementById('paywall-modal').classList.remove('active');
+              showApp(); toast('🎉 Access unlocked! Welcome to ExamPulse','success');
+            } else { toast('Payment verification failed. Contact support.','error'); }
+          } catch(e) { toast('Verification error. Contact support on WhatsApp.','error'); }
+        },
+        modal: { ondismiss: () => { btn.disabled=false; btn.innerHTML='Pay ₹50 via Razorpay'; } }
+      });
+      rzp.open();
+    };
+    document.head.appendChild(script);
+  } catch(e) { toast(e.message||'Payment failed','error'); btn.disabled=false; btn.innerHTML='Pay ₹50 via Razorpay'; }
+}
+
+// ═══════════════════════════════════════════════
+// APP SHELL
+// ═══════════════════════════════════════════════
+function showApp() {
+  document.getElementById('landing-root').style.display='none';
+  document.getElementById('app-root').style.display='block';
+  if (currentUser) {
+    document.getElementById('sb-avatar').textContent = currentUser.name?.charAt(0).toUpperCase()||'S';
+    document.getElementById('sb-name').textContent = currentUser.name||'Student';
+    document.getElementById('sb-email').textContent = currentUser.email||'';
+    if (currentUser.role==='admin') document.getElementById('admin-nav').style.display='flex';
+    if (currentUser.accessExpiry) {
+      const exp = new Date(currentUser.accessExpiry);
+      const days = Math.ceil((exp-new Date())/(1000*60*60*24));
+      document.getElementById('access-expiry-text').textContent = `Valid till ${exp.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}`;
+      document.getElementById('access-days-badge').textContent = `${days} Days Left`;
+      if (days<=7) document.getElementById('access-banner').style.background='linear-gradient(135deg,#EF4444,#DC2626)';
+      else if (days<=30) document.getElementById('access-banner').style.background='linear-gradient(135deg,#F59E0B,#D97706)';
+    }
+  }
+  loadDashboard(); renderBrowse(); loadBookmarks();
+}
+
+function showPage(p) {
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  const titles={dashboard:'Home',browse:'Browse',search:'Search',bookmarks:'Bookmarks',admin:'Admin Panel'};
+  document.getElementById('topbar-title').textContent=titles[p]||p;
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.getAttribute('onclick')?.includes(`'${p}'`)) n.classList.add('active');
+  });
+  if(p==='bookmarks') loadBookmarks();
+  if(p==='admin') loadAdminUsers();
+}
+
+// ═══════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════
+async function loadDashboard() {
+  try {
+    const {questions} = await api('/api/recent-updates');
+    const list = document.getElementById('recent-list');
+    if(!questions.length) { list.innerHTML='<div style="color:var(--grey);text-align:center;padding:24px;">No updates yet. Admin will add content soon.</div>'; }
+    else list.innerHTML = questions.slice(0,5).map(q=>`
+      <div class="recent-item">
+        <div class="ri-icon" style="background:var(--orange-light);">📋</div>
+        <div style="flex:1;min-width:0;">
+          <div class="ri-title">${trunc(q.questionText,50)}</div>
+          <div class="ri-sub">${q.markCategory}</div>
+        </div>
+        <div class="ri-time">${ago(q.createdAt)}</div>
+      </div>`).join('');
+    const bmarks = await api('/api/bookmarks');
+    document.getElementById('bmark-count').textContent = bmarks.length;
+  } catch(e) { console.error(e); }
+}
+
+// ═══════════════════════════════════════════════
+// BROWSE
+// ═══════════════════════════════════════════════
+async function renderBrowse() {
+  bs={};
+  const c=document.getElementById('browse-content');
+  c.innerHTML='<div style="color:var(--grey);">Loading branches...</div>';
+  try {
+    const branches = await api('/api/branches');
+    const icons={CSE:'💻',ECE:'📡',EEE:'⚡',EIE:'🔌',VLSI:'🔬',CST:'🖥️'};
+    c.innerHTML=`
+      <div style="margin-bottom:24px;"><div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--navy);margin-bottom:4px;">Choose Your Branch</div><div style="font-size:14px;color:var(--grey);">Select a branch to explore semesters, subjects and questions</div></div>
+      <div class="browse-grid">${branches.map(b=>`<div class="bbc" onclick="loadSems('${b._id}','${b.name}')"><div class="bbc-icon">${icons[b.name]||'📚'}</div><div class="bbc-name">${b.name}</div><div class="bbc-meta">8 Semesters · Tap to explore</div></div>`).join('')}</div>`;
+  } catch(e) { c.innerHTML=emptyState('📚','Could not load branches','Check your connection and try again'); }
+}
+
+async function loadSems(branchId,branchName) {
+  bs={branchId,branchName};
+  const c=document.getElementById('browse-content');
+  c.innerHTML=bc([{l:'Branches',f:'renderBrowse()'},{l:branchName}])+'<div style="color:var(--grey);">Loading semesters...</div>';
+  try {
+    const sems=await api(`/api/semesters/${branchId}`);
+    c.innerHTML=bc([{l:'Branches',f:'renderBrowse()'},{l:branchName}])+
+      `<div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:20px;">${branchName} — Select Semester</div>
+       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+         ${sems.length?sems.map(s=>`<div class="bbc" style="text-align:center;" onclick="loadSubjects('${s._id}','${s.number}')"><div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--navy);">${s.number}</div><div style="font-size:13px;color:var(--grey);">Semester</div></div>`).join('')
+           :'<div style="grid-column:1/-1;'+emptyState('📅','No semesters added yet','Admin will add semesters soon')+'</div>'}
+       </div>`;
+  } catch(e){}
+}
+
+async function loadSubjects(semId,semNum) {
+  bs.semId=semId; bs.semNum=semNum;
+  const c=document.getElementById('browse-content');
+  try {
+    const subjects=await api(`/api/subjects/${semId}`);
+    c.innerHTML=bc([{l:'Branches',f:'renderBrowse()'},{l:bs.branchName,f:`loadSems('${bs.branchId}','${bs.branchName}')`},{l:'Sem '+semNum}])+
+      `<div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:20px;">Semester ${semNum} — Subjects</div>
+       <div class="browse-grid">${subjects.length?subjects.map(s=>`<div class="bbc" onclick="loadModules('${s._id}','${s.name}')"><div class="bbc-icon">📖</div><div class="bbc-name" style="font-size:16px;">${s.name}</div><div class="bbc-meta">Tap to view modules</div></div>`).join('')
+         :'<div style="grid-column:1/-1;">'+emptyState('📖','No subjects added yet','')+'</div>'}</div>`;
+  } catch(e){}
+}
+
+async function loadModules(subjectId,subjectName) {
+  bs.subjectId=subjectId; bs.subjectName=subjectName;
+  const c=document.getElementById('browse-content');
+  try {
+    const mods=await api(`/api/modules/${subjectId}`);
+    c.innerHTML=bc([{l:'Branches',f:'renderBrowse()'},{l:bs.branchName,f:`loadSems('${bs.branchId}','${bs.branchName}')`},{l:'Sem '+bs.semNum,f:`loadSubjects('${bs.semId}','${bs.semNum}')`},{l:subjectName}])+
+      `<div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:20px;">${subjectName} — Modules</div>
+       <div class="browse-grid">${mods.length?mods.map(m=>`<div class="bbc" onclick="loadModuleDetail('${m._id}','${m.title}','${m.number}')"><div class="bbc-icon">📂</div><div class="bbc-name" style="font-size:15px;">Module ${m.number}</div><div class="bbc-meta">${m.title}</div></div>`).join('')
+         :'<div style="grid-column:1/-1;">'+emptyState('📂','No modules added yet','')+'</div>'}</div>`;
+  } catch(e){}
+}
+
+function loadModuleDetail(moduleId,moduleTitle,moduleNum) {
+  bs.moduleId=moduleId; bs.moduleTitle=moduleTitle; bs.moduleNum=moduleNum;
+  const c=document.getElementById('browse-content');
+  const cards=[
+    {icon:'📖',label:'Topics & PYQs',desc:'Browse topic-wise questions',fn:`loadTopics('${moduleId}','${moduleNum}')`},
+    {icon:'🔁',label:'Most Repeated',desc:'High frequency questions',fn:`loadMostRepeated('${moduleId}')`},
+    {icon:'💡',label:'Important Concepts',desc:'Key concepts to revise',fn:`loadConcepts('${moduleId}')`},
+    {icon:'📄',label:'Notes',desc:'Module notes & handouts',fn:`loadNotes('${moduleId}')`},
+    {icon:'📋',label:'Syllabus',desc:'Official subject syllabus',fn:`loadSyllabus('${bs.subjectId}','${bs.subjectName}')`},
+    {icon:'⭐',label:'Top Revision',desc:'Last-minute revision Qs',fn:`loadTopRevision('${moduleId}')`},
+  ];
+  c.innerHTML=bc([{l:'Branches',f:'renderBrowse()'},{l:bs.branchName,f:`loadSems('${bs.branchId}','${bs.branchName}')`},{l:'Sem '+bs.semNum,f:`loadSubjects('${bs.semId}','${bs.semNum}')`},{l:bs.subjectName,f:`loadModules('${bs.subjectId}','${bs.subjectName}')`},{l:'Module '+moduleNum}])+
+    `<div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:4px;">${bs.subjectName} — Module ${moduleNum}</div>
+     <div style="font-size:14px;color:var(--grey);margin-bottom:24px;">${moduleTitle}</div>
+     <div class="browse-grid">${cards.map(cd=>`<div class="bbc" onclick="${cd.fn}"><div class="bbc-icon">${cd.icon}</div><div class="bbc-name" style="font-size:15px;">${cd.label}</div><div class="bbc-meta">${cd.desc}</div></div>`).join('')}</div>`;
+}
+
+async function loadTopics(moduleId,moduleNum) {
+  const c=document.getElementById('browse-content');
+  try {
+    const topics=await api(`/api/topics/${moduleId}`);
+    c.innerHTML=backBtn()+`<div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:20px;">Topics — Module ${moduleNum}</div>`+
+      (topics.length?topics.map(t=>`<div class="q-card" onclick="loadQsByTopic('${t._id}','${t.name}')"><div style="font-weight:700;font-size:15px;color:var(--navy);">${t.name}</div><div style="font-size:13px;color:var(--grey);margin-top:4px;">Tap to view questions →</div></div>`).join('')
+        :emptyState('📖','No topics yet','Admin will add topics soon'));
+  } catch(e){}
+}
+
+async function loadQsByTopic(topicId,topicName) {
+  await loadQs(`/api/questions/topic/${topicId}`,topicName);
+}
+async function loadMostRepeated(moduleId) {
+  await loadQs(`/api/questions/most-repeated/${moduleId}`,'🔁 Most Repeated Questions');
+}
+async function loadTopRevision(moduleId) {
+  await loadQs(`/api/questions/top-revision/${moduleId}`,'⭐ Top Revision Questions');
+}
+
+async function loadQs(url,title) {
+  const c=document.getElementById('browse-content');
+  c.innerHTML=backBtn()+'<div style="color:var(--grey);">Loading questions...</div>';
+  try {
+    const qs=await api(url);
+    const marks=['All','1 Mark','2 Mark','5 Mark','10 Mark','Short','Long'];
+    const renderList=(filter)=>{
+      const filtered=filter==='All'?qs:qs.filter(q=>q.markCategory===filter);
+      document.getElementById('q-list').innerHTML=filtered.length
+        ?filtered.map(q=>`<div class="q-card" onclick='showQDetail(${JSON.stringify(q).replace(/'/g,"&#39;")})'>
+            <div class="q-meta"><span class="mark-badge">${q.markCategory}</span>${q.frequency>0?`<span class="freq-badge">🔁 ${q.frequency}×</span>`:''}</div>
+            <div class="q-text">${trunc(q.questionText,120)}</div>
+            <div class="q-footer"><span>View solution →</span></div>
+          </div>`).join('')
+        :emptyState('❓','No questions in this category','');
+    };
+    c.innerHTML=backBtn()+
+      `<div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:4px;">${title}</div>
+       <div style="font-size:14px;color:var(--grey);margin-bottom:16px;">${qs.length} questions</div>
+       <div class="filter-bar">${marks.map(m=>`<div class="fchip${m==='All'?' active':''}" onclick="setFilter(this,'${m}')">${m}</div>`).join('')}</div>
+       <div id="q-list"></div>`;
+    window.setFilter=(el,f)=>{ document.querySelectorAll('.fchip').forEach(x=>x.classList.remove('active')); el.classList.add('active'); renderList(f); };
+    renderList('All');
+  } catch(e){ c.innerHTML=backBtn()+emptyState('❓','Error loading questions','Check connection and try again'); }
+}
+
+async function loadConcepts(moduleId) {
+  const c=document.getElementById('browse-content');
+  try {
+    const concepts=await api(`/api/concepts/${moduleId}`);
+    c.innerHTML=backBtn()+`<div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:20px;">💡 Important Concepts</div>`+
+      (concepts.length?concepts.map(cn=>`
+        <div class="q-card" onclick="this.querySelector('.cbody').style.display=this.querySelector('.cbody').style.display==='none'?'block':'none'">
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div style="font-weight:700;font-size:15px;color:var(--navy);">${cn.title}</div><span style="color:var(--orange);font-size:12px;">▼</span></div>
+          <div class="cbody" style="display:none;margin-top:12px;font-size:14px;color:var(--text2);line-height:1.7;">${cn.explanation}${cn.images?.map(img=>`<img src="${img}" style="max-width:100%;border-radius:8px;margin-top:8px;" />`).join('')||''}</div>
+        </div>`).join(''):emptyState('💡','No concepts added yet','Admin will add concepts soon'));
+  } catch(e){}
+}
+
+async function loadNotes(moduleId) {
+  const c=document.getElementById('browse-content');
+  try {
+    const notes=await api(`/api/notes/${moduleId}`);
+    const tc={'Module Notes':'#4F46E5','Handwritten':'#7C3AED','Revision':'#F59E0B','Question Bank':'#10B981','Faculty':'#EF4444'};
+    c.innerHTML=backBtn()+`<div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:20px;">📄 Notes</div>`+
+      (notes.length?notes.map(n=>`
+        <div class="q-card" style="display:flex;align-items:center;gap:16px;">
+          <div style="font-size:32px;">📄</div>
+          <div style="flex:1;"><div style="font-weight:700;font-size:15px;color:var(--navy);">${n.title}</div><span style="display:inline-block;margin-top:4px;padding:2px 10px;border-radius:50px;font-size:11px;font-weight:700;background:${tc[n.type]||'#EEF2FF'}22;color:${tc[n.type]||'#4F46E5'}">${n.type}</span></div>
+          <a href="${n.fileUrl}" target="_blank" class="btn btn-navy" style="padding:8px 16px;font-size:13px;white-space:nowrap;">Open PDF</a>
+        </div>`).join(''):emptyState('📄','No notes uploaded yet','Admin will upload notes here'));
+  } catch(e){}
+}
+
+async function loadSyllabus(subjectId,subjectName) {
+  const c=document.getElementById('browse-content');
+  try {
+    const data=await api(`/api/subjects/${subjectId}/syllabus`);
+    c.innerHTML=backBtn()+`<div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:20px;">📋 Syllabus — ${subjectName}</div>`+
+      (data.syllabusFileUrl?`<iframe src="https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(data.syllabusFileUrl)}" style="width:100%;height:70vh;border:none;border-radius:12px;border:1px solid var(--border);"></iframe>`:emptyState('📋','Syllabus not uploaded yet','Admin will upload the official syllabus here'));
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════════════
+// QUESTION DETAIL
+// ═══════════════════════════════════════════════
+function showQDetail(q) {
+  const c=document.getElementById('browse-content');
+  c.innerHTML=backBtn()+`
+    <div style="max-width:740px;">
+      <div style="background:#fff;border-radius:16px;padding:28px;border:1px solid var(--border);margin-bottom:16px;">
+        <div class="q-meta" style="margin-bottom:16px;">
+          <span class="mark-badge" style="font-size:13px;padding:5px 14px;">${q.markCategory}</span>
+          ${q.frequency>0?`<span class="freq-badge" style="font-size:13px;">🔁 Appeared ${q.frequency} times</span>`:''}
+        </div>
+        <div style="font-size:17px;color:var(--text);line-height:1.7;margin-bottom:20px;font-weight:500;">${q.questionText}</div>
+        ${q.images?.length?q.images.map(img=>`<img src="${img}" style="max-width:100%;border-radius:8px;margin-bottom:8px;" />`).join(''):''}
+        ${q.yearAppeared?.length?`
+          <div style="background:var(--off);border-radius:12px;padding:16px;margin-bottom:16px;">
+            <div style="font-size:11px;font-weight:700;color:var(--grey);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Year Appeared</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">${q.yearAppeared.map(y=>`<span style="padding:4px 12px;background:#fff;border:1px solid var(--border);border-radius:50px;font-size:13px;font-weight:600;color:var(--navy);">${y.examName} ${y.year}</span>`).join('')}</div>
+          </div>`:''}
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button id="bmark-btn-${q._id}" onclick="toggleBmark('${q._id}',this)" style="padding:10px 20px;border-radius:10px;border:2px solid var(--border);background:#fff;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px;">🤍 Save</button>
+          <button onclick="openReportModal('${q._id}')" style="padding:10px 20px;border-radius:10px;border:2px solid var(--border);background:#fff;cursor:pointer;font-weight:600;font-size:14px;color:var(--grey);">🚩 Report</button>
+        </div>
+      </div>
+      ${q.solutionText?`
+        <div style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border-radius:16px;padding:28px;border:1px solid #BBF7D0;">
+          <div style="font-size:11px;font-weight:700;color:#15803D;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">✅ Solution</div>
+          <div style="font-size:15px;color:var(--text);line-height:1.8;white-space:pre-wrap;">${q.solutionText}</div>
+        </div>`
+        :`<div style="background:var(--off);border-radius:16px;padding:28px;text-align:center;color:var(--grey);border:1px solid var(--border);">Solution coming soon</div>`}
+    </div>`;
+}
+
+async function toggleBmark(qId,btn) {
+  const saved=btn.textContent.includes('Saved');
+  try {
+    if(saved) { await api('/api/bookmarks/remove','DELETE',{questionId:qId}); btn.innerHTML='🤍 Save'; toast('Bookmark removed'); }
+    else { await api('/api/bookmarks/add','POST',{questionId:qId}); btn.innerHTML='❤️ Saved'; toast('Bookmarked!','success'); }
+  } catch(e) { toast(e.message||'Error','error'); }
+}
+
+function openReportModal(qId) {
+  const reasons=['Wrong Solution','Missing Diagram','Incorrect Answer','Broken PDF'];
+  const overlay=document.createElement('div');
+  overlay.className='modal-overlay active';
+  overlay.innerHTML=`<div class="modal" style="max-width:360px;">
+    <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+    <div class="modal-title" style="font-size:20px;margin-bottom:6px;">🚩 Report Issue</div>
+    <div class="modal-sub">What's wrong with this question?</div>
+    ${reasons.map(r=>`<div onclick="submitReport('${qId}','${r}',this.closest('.modal-overlay'))" style="padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px;cursor:pointer;font-size:14px;font-weight:500;" onmouseover="this.style.borderColor='var(--orange)';this.style.color='var(--orange)'" onmouseout="this.style.borderColor='var(--border)';this.style.color=''">${r}</div>`).join('')}
+  </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click',e=>{ if(e.target===overlay) overlay.remove(); });
+}
+
+async function submitReport(qId,reason,overlay) {
+  try { await api('/api/bookmarks/report','POST',{questionId:qId,reason}); overlay.remove(); toast('Report submitted. Thank you!','success'); }
+  catch(e) { toast('Error submitting report','error'); }
+}
+
+// ═══════════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════════
+let stimer;
+function handleSearch() {
+  clearTimeout(stimer);
+  stimer=setTimeout(async()=>{
+    const q=document.getElementById('search-input').value.trim();
+    const res=document.getElementById('search-results');
+    if(!q||q.length<2) { res.innerHTML=emptyState('🔍','Search anything','Type a topic, keyword or subject name'); return; }
+    res.innerHTML='<div style="color:var(--grey);">Searching...</div>';
+    try {
+      const data=await api(`/api/search?q=${encodeURIComponent(q)}`);
+      let html='';
+      if(data.questions?.length) html+=`<div class="results-section"><div class="results-hdr">Questions <span class="results-count">${data.questions.length} found</span></div>${data.questions.map(q=>`<div class="q-card" onclick='showQDetail(${JSON.stringify(q).replace(/'/g,"&#39;")})'><div class="q-meta"><span class="mark-badge">${q.markCategory}</span>${q.frequency>0?`<span class="freq-badge">🔁 ${q.frequency}×</span>`:''}</div><div class="q-text">${trunc(q.questionText,100)}</div></div>`).join('')}</div>`;
+      if(data.concepts?.length) html+=`<div class="results-section"><div class="results-hdr">Concepts <span class="results-count">${data.concepts.length} found</span></div>${data.concepts.map(c=>`<div class="q-card"><div style="font-weight:700;color:var(--navy);margin-bottom:6px;">💡 ${c.title}</div><div style="font-size:14px;color:var(--text2);">${trunc(c.explanation,100)}</div></div>`).join('')}</div>`;
+      if(data.notes?.length) html+=`<div class="results-section"><div class="results-hdr">Notes <span class="results-count">${data.notes.length} found</span></div>${data.notes.map(n=>`<div class="q-card" style="display:flex;align-items:center;gap:12px;"><span style="font-size:24px;">📄</span><div><div style="font-weight:700;color:var(--navy);">${n.title}</div><div style="font-size:12px;color:var(--grey);">${n.type}</div></div></div>`).join('')}</div>`;
+      res.innerHTML=html||emptyState('🔍',`No results for "${q}"`,  'Try a different keyword or topic name');
+    } catch(e) { res.innerHTML=emptyState('🔍','Search failed','Check your connection and try again'); }
+  },400);
+}
+
+// ═══════════════════════════════════════════════
+// BOOKMARKS
+// ═══════════════════════════════════════════════
+async function loadBookmarks() {
+  const c=document.getElementById('bookmarks-content');
+  try {
+    const bmarks=await api('/api/bookmarks');
+    if(!bmarks.length) { c.innerHTML=emptyState('❤️','No bookmarks yet','Save important questions while studying. Click 🤍 on any question to bookmark it.')+'<div style="text-align:center;margin-top:-16px;"><button class="btn btn-primary" onclick="showPage(\'browse\')">Browse Questions</button></div>'; return; }
+    c.innerHTML=`<div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:20px;">❤️ Saved Questions (${bmarks.length})</div>`+
+      bmarks.filter(b=>b.questionId).map(b=>`
+        <div class="bmark-card">
+          <div style="flex:1;">
+            <div class="q-meta" style="margin-bottom:8px;"><span class="mark-badge">${b.questionId.markCategory}</span>${b.questionId.frequency>0?`<span class="freq-badge">🔁 ${b.questionId.frequency}×</span>`:''}</div>
+            <div style="font-size:15px;color:var(--text);line-height:1.6;">${b.questionId.questionText}</div>
+          </div>
+          <button class="bmark-remove" onclick="removeBmark('${b.questionId._id}',this.closest('.bmark-card'))" title="Remove bookmark">✕</button>
+        </div>`).join('');
+  } catch(e) { c.innerHTML=emptyState('❤️','Could not load bookmarks','Check your connection'); }
+}
+
+async function removeBmark(qId,card) {
+  try { await api('/api/bookmarks/remove','DELETE',{questionId:qId}); card.remove(); toast('Bookmark removed'); }
+  catch(e) { toast('Error removing bookmark','error'); }
+}
+
+// ═══════════════════════════════════════════════
+// ADMIN
+// ═══════════════════════════════════════════════
+function switchAdmin(tab,btn) {
+  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('admin-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+async function loadAdminUsers() {
+  const tbody=document.getElementById('users-tbody');
+  tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--grey);padding:32px;">Loading...</td></tr>';
+  try {
+    const users=await api('/api/admin/users');
+    tbody.innerHTML=users.map(u=>`<tr>
+      <td><strong>${u.name}</strong></td>
+      <td style="color:var(--grey);font-size:13px;">${u.email}</td>
+      <td style="color:var(--grey);font-size:13px;">${u.phone}</td>
+      <td><span class="spill ${u.isPaid?'s-active':'s-inactive'}">${u.isPaid?'Active':'Unpaid'}</span></td>
+      <td style="font-size:13px;color:var(--grey);">${u.accessExpiry?new Date(u.accessExpiry).toLocaleDateString('en-IN'):'-'}</td>
+      <td><button class="abtn abtn-grant" onclick="grantAccess('${u._id}')">Grant</button><button class="abtn abtn-block" onclick="blockUser('${u._id}')">Block</button></td>
+    </tr>`).join('');
+  } catch(e) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--danger);padding:24px;">Error loading users. Make sure you are admin.</td></tr>'; }
+}
+
+async function grantAccess(id) { try { await api(`/api/admin/users/${id}/grant`,'PUT'); loadAdminUsers(); toast('Access granted','success'); } catch(e) { toast('Error','error'); } }
+async function blockUser(id) { try { await api(`/api/admin/users/${id}/block`,'PUT'); loadAdminUsers(); toast('User blocked'); } catch(e) { toast('Error','error'); } }
+
+async function loadAdminReports() {
+  const c=document.getElementById('reports-list');
+  try {
+    const reports=await api('/api/admin/reports');
+    if(!reports.length) { c.innerHTML=emptyState('✅','No pending reports','All issues have been resolved'); return; }
+    c.innerHTML=reports.map(r=>`<div style="background:#fff;border-radius:14px;padding:20px;border:1px solid var(--border);margin-bottom:12px;border-left:4px solid var(--danger);">
+      <div style="font-weight:700;color:var(--danger);margin-bottom:6px;">${r.reason}</div>
+      <div style="font-size:14px;color:var(--text);margin-bottom:6px;">${r.questionId?.questionText||'Unknown question'}</div>
+      <div style="font-size:13px;color:var(--grey);margin-bottom:12px;">Reported by: ${r.userId?.name} (${r.userId?.email})</div>
+      <button class="abtn abtn-grant" onclick="resolveReport('${r._id}',this.closest('div[style]'))">✓ Mark Resolved</button>
+    </div>`).join('');
+  } catch(e) { c.innerHTML='<div style="color:var(--danger);">Error loading reports</div>'; }
+}
+
+async function resolveReport(id,card) { try { await api(`/api/admin/reports/${id}/resolve`,'PUT'); card.remove(); toast('Report resolved','success'); } catch(e){} }
+async function seedBranches() { try { const d=await api('/api/admin/seed-branches','POST'); toast('Branches seeded! '+( d.created?.length||0)+' added','success'); } catch(e) { toast(e.message||'Error — branches may already exist','error'); } }
+
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
+async function api(path,method='GET',body=null) {
+  const opts={method,headers:{'Content-Type':'application/json'}};
+  if(authToken) opts.headers['Authorization']=`Bearer ${authToken}`;
+  if(body) opts.body=JSON.stringify(body);
+  const res=await fetch(API+path,opts);
+  const data=await res.json();
+  if(!res.ok) throw new Error(data.message||'Request failed');
+  return data;
+}
+
+function bc(items) {
+  return `<div class="breadcrumb">${items.map((it,i)=>`${i>0?'<span class="bc-sep">›</span>':''}${it.f?`<span class="bc-link" onclick="${it.f}">${it.l}</span>`:`<span class="bc-cur">${it.l}</span>`}`).join('')}</div>`;
+}
+
+function backBtn() {
+  return `<button onclick="history.back()" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:20px;padding:8px 16px;border:1.5px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-weight:600;font-size:14px;color:var(--navy);">← Back</button>`;
+}
+
+function emptyState(icon,title,sub) {
+  return `<div class="empty-state"><div class="empty-icon">${icon}</div><div class="empty-title">${title}</div>${sub?`<div class="empty-sub">${sub}</div>`:''}</div>`;
+}
+
+function trunc(str,len) { return str?.length>len?str.substring(0,len)+'...':str||''; }
+
+function ago(date) {
+  if(!date) return '';
+  const d=(new Date()-new Date(date))/1000;
+  if(d<3600) return Math.floor(d/60)+'m ago';
+  if(d<86400) return Math.floor(d/3600)+'h ago';
+  return Math.floor(d/86400)+'d ago';
+}
+
+function toast(msg,type='') {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className=`toast show ${type}`;
+  setTimeout(()=>{ t.className='toast'; },3000);
+}
+</script>
+</body>
+</html>
